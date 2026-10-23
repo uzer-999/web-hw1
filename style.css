@@ -1,0 +1,582 @@
+/* ========================================
+   1. CSS 변수
+   ======================================== */
+:root {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --surface-light: #2d2d2d;
+  --text: #f0f0f0;
+  --muted: #b8b8b8;
+  --accent: #3b82f6;
+  --warn: #ef4444;
+  --gold: #fbbf24;
+  --border: #414141;
+  --on-accent: #ffffff;
+  --on-gold: #141414;
+
+  --font-title: "Black Han Sans", sans-serif;
+  --font-body: "Noto Sans KR", sans-serif;
+
+  --gap: 20px;
+}
+
+/* 보너스: 라이트 모드 */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-light: #e2e8f0;
+    --text: #1e293b;
+    --muted: #475569;
+    --accent: #1d4ed8;
+    --warn: #b91c1c;
+    --gold: #facc15;
+    --border: #cbd5e1;
+    --on-accent: #ffffff;
+    --on-gold: #141414;
+  }
+}
+
+/* ========================================
+   2. 기본 스타일
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ========================================
+   3. 헤더: Flex
+   ======================================== */
+.site-header {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  width: calc(100% - 32px);
+  max-width: 1100px;
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.logo {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+}
+
+.logo a {
+  color: var(--text);
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-header nav a:hover,
+.site-header nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* ========================================
+   4. 히어로
+   ======================================== */
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: 360px;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.88),
+      rgba(0, 0, 0, 0.38)
+    ),
+    url("https://image.tmdb.org/t/p/w1280/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.hero-content {
+  width: calc(100% - 32px);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+.hero-label {
+  margin: 0 0 10px;
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.hero h2 {
+  max-width: 700px;
+  margin: 0 0 12px;
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.3;
+}
+
+.hero-content > p:not(.hero-label) {
+  max-width: 580px;
+  color: #eeeeee;
+}
+
+.hero-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 9px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hero-link:hover {
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+}
+
+/* ========================================
+   5. 본문 및 영화 섹션
+   ======================================== */
+main {
+  width: calc(100% - 32px);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.movie-section {
+  padding: 40px 0;
+  scroll-margin-top: 20px;
+}
+
+.movie-section h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+}
+
+.section-description,
+.basis {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.section-description {
+  margin: 0 0 24px;
+}
+
+.basis {
+  margin: 0 0 8px;
+}
+
+/* 기본 1열 */
+.board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+}
+
+/* ========================================
+   6. 영화 카드
+   ======================================== */
+.card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(251, 191, 36, 0.3);
+}
+
+.poster-link {
+  display: block;
+}
+
+.poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--surface-light);
+}
+
+/* 포스터 대체 표지 */
+.poster-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--surface));
+  color: var(--text);
+  font-family: var(--font-title);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.poster-fallback[hidden] {
+  display: none;
+}
+
+.info {
+  min-width: 0;
+  padding: 16px;
+}
+
+.info h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.info p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.info .year {
+  color: var(--accent);
+}
+
+.audience {
+  color: var(--text) !important;
+}
+
+/* ========================================
+   7. 평점, 순위 및 변동 배지
+   ======================================== */
+.badge,
+.rank {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge {
+  right: 12px;
+  background: var(--gold);
+  color: var(--on-gold);
+}
+
+.rank {
+  left: 12px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.change {
+  min-height: 24px;
+  font-weight: 700;
+}
+
+.change.up {
+  color: var(--warn);
+}
+
+.change.up::before {
+  content: "▲ ";
+}
+
+.change.down {
+  color: var(--accent);
+}
+
+.change.down::before {
+  content: "▼ ";
+}
+
+.change.new {
+  color: var(--warn);
+}
+
+.change.new::before {
+  content: "NEW";
+}
+
+.change:not(.up):not(.down):not(.new) {
+  color: var(--muted);
+}
+
+/* ========================================
+   8. 상세 페이지 배경 및 레이아웃
+   ======================================== */
+.detail-page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.82),
+      rgba(0, 0, 0, 0.88)
+    ),
+    url("https://image.tmdb.org/t/p/w1280/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.detail-main {
+  min-height: 65vh;
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.detail-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.back-link {
+  margin: 0 0 24px;
+}
+
+.back-link a {
+  color: var(--text);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.detail-poster-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.detail-poster {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.detail-info {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.detail-info h2 {
+  margin: 0 0 20px;
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+}
+
+.detail-info dl {
+  display: grid;
+  grid-template-columns: 85px minmax(0, 1fr);
+  gap: 14px;
+  margin: 0;
+}
+
+.detail-info dt {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.detail-info dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ========================================
+   9. 푸터
+   ======================================== */
+.site-footer {
+  margin-top: 32px;
+  padding: 28px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 5px auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ========================================
+   10. 스켈레톤 로딩 보너스
+   ======================================== */
+.skeleton {
+  display: none;
+  min-height: 360px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-light) 25%,
+    var(--bg) 37%,
+    var(--surface-light) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+body.is-loading .skeleton {
+  display: block;
+}
+
+body.is-loading .card {
+  display: none;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+
+/* ========================================
+   11. 접근성: 동작 줄이기
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .card,
+  .hero-link {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* ========================================
+   12. 태블릿: 2열 및 상세 2단
+   ======================================== */
+@media (min-width: 600px) {
+  .header-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .hero {
+    min-height: 440px;
+  }
+
+  .detail-container {
+    width: calc(100% - 32px);
+  }
+}
+
+/* ========================================
+   13. 데스크톱: 4열
+   ======================================== */
+@media (min-width: 1024px) {
+  .board {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 60vh;
+  }
+
+  .movie-section {
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+}
